@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{include './components/header.html'}}
+    <title>{{title}}</title>
+</head>
+<body>
+    {{include './components/navbar.html'}}
+    <form action="/signin" method="POST">
+        <div class="container border" style="margin-top:50px; padding:10px;max-width: 650px;">
+                <div class="form-group">
+                        <label for="InputUserName">用户名</label>
+                        <input type="text" class="form-control" name="username" id="InputUserName" placeholder="请输入用户名">
+                    </div>
+                <div class="form-group">
+                    <label for="InputPassword1">密码</label>
+                    <input type="password" class="form-control" name="password" id="InputPassword1" placeholder="请输入密码">
+                </div>
+                <button type="submit" class="btn btn-primary">登录</button>
+                <a href="/signup">&nbsp;&nbsp;注册一个新账号</a>
+            </div> 
+    </form>
+</body>
+</html>

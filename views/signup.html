@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{include './components/header.html'}}
+    <title>登录页面</title>
+</head>
+<body>
+    {{include './components/navbar.html'}}
+    <form action="/signup" method="POST">
+        <div class="container border" style="margin-top:50px; padding:10px;max-width: 650px;">
+                <div class="form-group">
+                        <label for="InputUserName">用户名</label>
+                        <input type="text" class="form-control" name="username" id="InputUserName" placeholder="请输入用户名">
+                    </div>
+                <div class="form-group">
+                    <label for="InputEmail">邮箱地址</label>
+                    <input type="email" class="form-control" name="email" id="InputEmail" placeholder="请输入邮箱">
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword1">密码</label>
+                    <input type="password" class="form-control" name="password" id="InputPassword1" placeholder="请输入密码">
+                </div>
+                <div class="form-group">
+                        <label for="InputPassword2">确认密码</label>
+                        <input type="password" class="form-control" name="repassword" id="InputPassword2" placeholder="请再输入一遍密码">
+                    </div>
+                <button type="submit" class="btn btn-primary">立即注册</button>
+                <a href="/signin">&nbsp;&nbsp;已有账号直接登录</a>
+            </div> 
+    </form>
+</body>
+</html>
