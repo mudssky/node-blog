@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   {{include './components/header.html'}}
+  <title>{{title}}</title>
+  <style>
+      .editor-header{
+          display:flex;
+          height: 60px;
+      }
+      .editor-header input{
+          flex:1;
+          height: 100%;
+      }
+      .editor-header .btn{
+          width: 50px;
+      }
+      .markdown-body{
+          background-color: gold;
+      }
+      #editor{
+          /* vh指的是屏幕可视区域高度的1%，这里我们动态计算出编辑区的高度 */
+          height: calc(100vh - 120px);
+      }
+      #editor .input{
+        position: relative;
+        border: none;
+         border-right: 1px solid #ccc;
+        resize: none;
+        outline: none;
+        border-radius: 0;
+        background-color: #f6f6f6;
+        font-size: 14px;
+        font-family: 'Monaco', courier, monospace;
+        padding: 20px;
+      }
+      #editor .input, #editor .show {
+        display: inline-block;
+        width: 49%;
+        height: 100%;
+        vertical-align: top;
+        box-sizing: border-box;
+        overflow: scroll;
+        padding: 15px 20px;
+     }
+     textarea {
+    /* 规定浏览器对空白的处理 pre-wrap的意思是空白会保留类似于pre标签的效果 */
+    white-space: pre-wrap; 
+    /* 规定浏览器对溢出元素的文本的处理，break-word指的是内容将在边界换行 */
+    overflow-wrap: break-word;
+}
+  </style>
+</head>
+<body>   
+    {{include './components/navbar.html'}}
+    <form action="/posts/{{@ post._id}}/edit" method="POST">  
+        <header class="editor-header">
+            <input name="title" class="form-control" value="{{post.title}}" autofocus="autofocus" type="text" placeholder="输入文章标题...">
+            <button class="btn btn-primary btn-block " type="submit">更新</button>
+        </header>
+        <div id="editor">
+            <textarea name="content" class="input">{{post.content}}</textarea>
+            <div class="show content markdown-body"></div>
+        </div>
+    </form>
+    <script src="{{__HOST__}}/vendors/marked.min.js"></script>
+    <script>
+        $(function(){
+            var input = $('#editor .input')
+            $('#deitor .show').html(marked(input.val()))
+            input.on('input',function(){
+                $('#editor .show').html(marked($(this).val()))
+            })
+        })
+  
+    </script>
+</body>
+</html>

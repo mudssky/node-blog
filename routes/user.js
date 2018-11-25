@@ -4,8 +4,8 @@ module.exports = {
   async signup (ctx, next) {
     if (ctx.method === 'GET') {
       await ctx.render('signup', {
-        title: '用户注册',
-        session: ctx.session
+        title: '用户注册'
+        // session: ctx.session
       })
       return
     }

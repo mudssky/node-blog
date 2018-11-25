@@ -8,10 +8,28 @@ const CONFIG = require('./config/config')
 const app = new Koa()
 const session = require('koa-session')
 const bodyParser = require('koa-bodyparser')
-
+const marked = require('marked')
 const flash = require('./middlewares/flash')
 
 app.use(flash())
+
+// 在模板引擎中要用到marked，绑定到ctx.state上
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true,
+  smartypants: false
+})
+app.use(async (ctx, next) => {
+  ctx.state.ctx = ctx
+  ctx.state.marked = marked
+  ctx.state.log = console.log
+  await next()
+})
 
 app.keys = ['somethings']
 app.use(session({
@@ -28,8 +46,10 @@ render(app, {
 })
 
 // 配置ctx.state以便在模板引擎中能够使用
+// 配置全局变量__HOST__作为脚本引入的固定地址
 app.use(async (ctx, next) => {
   ctx.state.ctx = ctx
+  ctx.state.__HOST__ = 'http://' + ctx.request.header.host
   await next()
 })
 
