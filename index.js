@@ -8,8 +8,12 @@ const CONFIG = require('./config/config')
 const app = new Koa()
 const session = require('koa-session')
 const bodyParser = require('koa-bodyparser')
-app.keys = ['somethings']
 
+const flash = require('./middlewares/flash')
+
+app.use(flash())
+
+app.keys = ['somethings']
 app.use(session({
   key: CONFIG.session.key,
   maxAge: CONFIG.session.maxAge

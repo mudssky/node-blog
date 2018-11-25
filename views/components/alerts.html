@@ -1,0 +1,16 @@
+{{if ctx.flash}}    
+<div class="alerts">
+    {{if ctx.flash.success}}
+    <div class="alert alert-success" role="alert">
+        {{ctx.flash.success}}
+      </div>
+      {{else if ctx.flash.warning}}
+      <div class="alert alert-success" role="alert">
+        {{ctx.flash.warning}}
+      </div>
+      {{/if}}
+</div>
+{{/if}}
+<!-- <div class="alert alert-success" role="alert">
+        xiaoxi
+      </div> -->

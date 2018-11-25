@@ -41,15 +41,16 @@ module.exports = {
         email: user.email
       }
       // console.log(ctx)
-      console.log(ctx.session)
+      // console.log(ctx.session)
+      ctx.flash = { success: '登陆成功' }
       ctx.redirect('/')
     } else {
       ctx.body = '用户名或密码错误'
     }
   },
   async signout (ctx, next) {
-    ctx.session = null
-    // console.log(ctx.session)
+    ctx.session.user = null
+    ctx.flash = { warning: '退出登录' }
     ctx.redirect('/')
     // ctx.body=ctx.session
   }
