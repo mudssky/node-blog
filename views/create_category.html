@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   {{include './components/header.html'}}
+  <title></title>
+</head>
+<body>
+   {{include './components/navbar.html'}}
+   <div class="container mt-4">
+    <form action="/category/new" method="POST">
+        <div class="form-group">
+            <label for="categoryTitle">分类标题</label>
+            <input type="text" name="title" class="form-control" id="categoryTitle"  placeholder="输入分类的标题">
+        </div>
+        <div class="form-group">
+            <label for="categoryName">分类名</label>
+            <input type="text" name="name" class="form-control" id="categoryName"  placeholder="英文名字，便于在url中使用">
+        </div>
+        <div class="form-group">
+            <label>描述</label>
+            <textarea name="desc" rows="10" id="categoryDesc" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">新建分类</button>
+   </form>
+   </div>
+</body>
+</html>

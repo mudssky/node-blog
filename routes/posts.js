@@ -1,10 +1,28 @@
 const PostModel = require('../models/post')
 const CommentModel = require('../models/comment')
+const CategoryModel = require('../models/category')
 module.exports = {
+  async index (ctx, next) {
+    const cname = ctx.query.c
+    let cid
+    if (cname) {
+      const cateogry = await CategoryModel.findOne({ name: cname })
+      cid = cateogry._id
+    }
+    const query = cid ? { category: cid } : {}
+    const posts = await PostModel.find(query)
+    await ctx.render('index', {
+      title: '分类文章',
+      posts
+    }
+    )
+  },
   async create (ctx, next) {
     if (ctx.method === 'GET') {
+      const categories = await CategoryModel.find({})
       await ctx.render('create', {
-        title: '新建文章'
+        title: '新建文章',
+        categories
       })
       return
     }
@@ -38,6 +56,8 @@ module.exports = {
   async edit (ctx, next) {
     if (ctx.method === 'GET') {
       const post = await PostModel.findById(ctx.params.id)
+        .populate({ path: 'category', select: 'title' })
+      const categories = await CategoryModel.find({})
       if (!post) {
         throw new Error('文章不存在')
       }
@@ -46,14 +66,16 @@ module.exports = {
       }
       await ctx.render('edit', {
         title: '更新文章',
-        post
+        post,
+        categories
       })
       return
     }
-    const { title, content } = ctx.request.body
+    const { title, content, category } = ctx.request.body
     await PostModel.findByIdAndUpdate(ctx.params.id, {
       title,
-      content
+      content,
+      category
     })
     ctx.flash = { success: '更新文章成功' }
     ctx.redirect(`/posts/${ctx.params.id}`)

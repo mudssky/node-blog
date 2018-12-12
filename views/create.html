@@ -56,6 +56,14 @@
     <form action="/posts/new" method="POST">  
         <header class="editor-header">
             <input name="title" class="form-control"  autofocus="autofocus" type="text" placeholder="输入文章标题...">
+            <div class="inline-block">
+                    <select  class="form-control h-100" name="category">
+                      <option value="desc" disabled selected>选择分类</option>
+                      {{each categories category }}
+                      <option value="{{@ category.id}}">{{category.title}}</option>
+                      {{/each}}
+                    </select>
+            </div>
             <button class="btn btn-primary btn-block " type="submit">发布</button>
         </header>
         <div id="editor">

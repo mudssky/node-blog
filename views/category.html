@@ -6,17 +6,27 @@
 </head>
 <body>
    {{include './components/navbar.html'}}
-   <table class="table">
+   <div class="container mt-5">
+       <a href="/category/new" class="btn btn-danger btn-sm">新建分类</a>
+    <table class="table">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">分类名字</th>
+        <th scope="col">name</th>
+        <th scope="col">操作</th>
       </tr>
     </thead>
     <tbody>
+      {{each categories category index}}
       <tr>
+        <th scope="row">{{index}}</th>
+        <td>{{category.title}}</td>
+        <td>{{category.name}}</td>
+        <td><a href="/category/{{@ category.id}}/delete" class="btn btn-danger btn-sm">删除</a></td>    
+      </tr>
+      {{/each}}
+      <!-- <tr>
         <th scope="row">1</th>
         <td>Mark</td>
         <td>Otto</td>
@@ -33,8 +43,10 @@
         <td>Larry</td>
         <td>the Bird</td>
         <td>@twitter</td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
+   </div>
+ 
 </body>
 </html>

@@ -2,6 +2,7 @@ const router = require('koa-router')()
 const user = require('./user.js')
 const post = require('./posts')
 const comment = require('./comments')
+const category = require('./category')
 module.exports = (app) => {
   async function isLoginUser (ctx, next) {
     if (!ctx.session.user) {
@@ -39,6 +40,7 @@ module.exports = (app) => {
   router.post('/signin', user.signin)
   router.get('/signout', user.signout)
   // 文章
+  router.get('/posts', isLoginUser, isAdmin, post.index)
   router.get('/posts/new', isLoginUser, isAdmin, post.create)
   router.post('/posts/new', isLoginUser, isAdmin, post.create)
   router.get('/posts/:id', post.show)
@@ -50,6 +52,12 @@ module.exports = (app) => {
   // 评论
   router.post('/comments/new', isLoginUser, comment.create)
   router.get('/comments/:id/delete', isLoginUser, comment.destroy)
+
+  // 分类
+  router.get('/category', isAdmin, category.list)
+  router.get('/category/new', isAdmin, category.create)
+  router.post('/category/new', isAdmin, category.create)
+  router.get('/category/:id/delete', isAdmin, category.destroy)
 
   app
     .use(router.routes())

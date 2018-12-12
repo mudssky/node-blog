@@ -53,9 +53,23 @@
 </head>
 <body>   
     {{include './components/navbar.html'}}
+    <div> <p>当前分类:{{post.category.title}}</p></div>
     <form action="/posts/{{@ post._id}}/edit" method="POST">  
         <header class="editor-header">
             <input name="title" class="form-control" value="{{post.title}}" autofocus="autofocus" type="text" placeholder="输入文章标题...">
+            <div class="inline-block">
+                    <select  class="form-control h-100" name="category">
+                      <option value="desc" disabled selected>选择分类</option>
+                      {{each categories category }}
+
+                      <option value="{{@ category.id}}">{{category.title}}</option>
+                      <!-- <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option> -->
+                      {{/each}}
+                    </select>
+            </div>
             <button class="btn btn-primary btn-block " type="submit">更新</button>
         </header>
         <div id="editor">
