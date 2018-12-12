@@ -1,5 +1,5 @@
 const PostModel = require('../models/post')
-
+const CommentModel = require('../models/comment')
 module.exports = {
   async create (ctx, next) {
     if (ctx.method === 'GET') {
@@ -17,12 +17,17 @@ module.exports = {
     ctx.redirect(`/posts/${res._id}`)
   },
   async show (ctx, next) {
+    // ctx.params 获取动态路由传值
     const post = await PostModel.findById(ctx.params.id)
       .populate({ path: 'author', select: 'username' })
-    console.log(post)
+    // console.log(post)
+    // 查找评论
+    const comments = await CommentModel.find({ postId: ctx.params.id })
+      .populate({ path: 'from', select: 'username' })
     await ctx.render('post', {
       title: post.title,
-      post
+      post,
+      comments
       //   comments
     })
     // await ctx.render('post',{

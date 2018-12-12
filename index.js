@@ -20,9 +20,10 @@ marked.setOptions({
   tables: true,
   breaks: false,
   pedantic: false,
-  sanitize: false,
   smartLists: true,
-  smartypants: false
+  smartypants: false,
+  // If true, sanitize the HTML passed into markdownString with the sanitizer function.开启这个选项帮我们对html进行转义，防止xss攻击
+  sanitize: true
 })
 app.use(async (ctx, next) => {
   ctx.state.ctx = ctx

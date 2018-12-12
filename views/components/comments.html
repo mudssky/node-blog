@@ -1,0 +1,30 @@
+<div class="container comment-box">
+        <form action="/comments/new" method="POST">
+         <input type="hidden" name="postId" value="{{@ post._id}}">
+         <textarea name="content" id="" rows="8" class="form-control" placeholder="发表评论"></textarea>
+         <button class="btn btn-primary">提交</button>
+        </form>
+
+        {{each comments comment}}
+        <article class="border-top mt-3 clearfix">
+        <div class="float-left">
+                <strong>{{comment.from}}</strong>
+                <br>
+                <p>{{@ marked(comment.content || 'no') }}</p>
+                 <!--marked开启senisize选项后，会把尖括号转换为字符实体  -->
+                <!-- {{log(marked(comment.content || 'no'))}} -->
+        </div>
+        <div class="float-right" style="display: none">
+                <button id="reply" class="btn btn-primary btn-sm ">回复</button>
+                <a href="/comments/{{@ comment._id}}/delete" class=" btn btn-sm">删除</a>
+        </div>
+        </article>
+        {{/each}}
+        <script>
+                $('article').hover(function(){
+                        $(this).find('.float-right').show()
+                },function(){
+                        $(this).find('.float-right').hide()
+                })
+        </script>
+</div>
