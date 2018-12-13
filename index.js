@@ -5,12 +5,14 @@ const serve = require('koa-static')
 const path = require('path')
 const mongoose = require('mongoose')
 const CONFIG = require('./config/config')
-const app = new Koa()
 const session = require('koa-session')
 const bodyParser = require('koa-bodyparser')
 const marked = require('marked')
 const flash = require('./middlewares/flash')
-
+const error = require('./middlewares/error_handler')
+const app = new Koa()
+// 错误处理中间件，套在最外层，相当于捕获所有后续代码的异常
+app.use(error())
 app.use(flash())
 
 // 在模板引擎中要用到marked，绑定到ctx.state上
@@ -53,11 +55,16 @@ app.use(async (ctx, next) => {
   ctx.state.__HOST__ = 'http://' + ctx.request.header.host
   await next()
 })
-
-router(app)
+// 静态资源服务中间件放在路由后面会导致，先执行路由中的代码。原来的404判断在所有判断之后，会把静态资源也当做html渲染
 app.use(serve(
   path.join(__dirname, 'public')
 ))
+router(app)
+// 监听程序跑出的error事件
+app.on('error', (err, ctx) =>
+  console.error('server error', err)
+)
+
 app.listen(3000, () => {
   console.log('server is running at http://localhost:3000')
 })

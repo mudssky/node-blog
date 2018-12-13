@@ -8,7 +8,7 @@ module.exports = {
     const allPostsCount = await PostModel.count()
     const pageCount = Math.ceil(allPostsCount / pageSize)
     const posts = await PostModel.find({}).skip((currentPage - 1) * pageSize).limit(pageSize)
-    console.log(posts)
+    // console.log(posts)
     await ctx.render('index', {
       title: 'abc-blog',
       desc: 'a simple blog',
