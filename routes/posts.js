@@ -17,6 +17,19 @@ module.exports = {
     }
     )
   },
+  async easyPage (ctx, next) {
+    const pageSize = 15
+    const currentPage = parseInt(ctx.query.page) || 1
+    const allPostsCount = await PostModel.count()
+    const pageCount = Math.ceil(allPostsCount / pageSize)
+    const posts = await PostModel.find({}).skip((currentPage - 1) * pageSize).limit(pageSize)
+    await ctx.render('index', {
+      title: '分页',
+      posts,
+      currentPage,
+      pageCount
+    })
+  },
   async create (ctx, next) {
     if (ctx.method === 'GET') {
       const categories = await CategoryModel.find({})

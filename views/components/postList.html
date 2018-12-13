@@ -3,5 +3,45 @@
         {{each posts}}
         <a href="/posts/{{@ $value._id}}" class="list-group-item list-group-item-action">{{$value.title}}</a>
         {{/each}}
+        <nav>
+            <ul class="pagination">   
+                <li class="page-item"><a class="page-link" href="/posts?page=<%=(currentPage<=1)?1:currentPage-1 %>">&lt;</a></li>
+               
+              <!-- <li class="page-item<%= currentPage==i?' active':''%>"><a class="page-link" href="/posts?page=<%-i%>"><%= i%></a></li> -->
+              <!-- 4为中间间隔的元素个数，也就是间隔元素>=4的时候会出现...，3为控制左右显示元素的个数及4-1，多出来一个位置放省略号 -->
+
+              <!--当前页左边部分逻辑 -->
+              <% if(currentPage-1>4){%>
+                <li class="page-item"><a class="page-link" href="/posts?page=1">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                <% for(var i=currentPage-3;i<=currentPage-1;i++){%>
+                <li class="page-item"><a class="page-link" href="/posts?page=<%-i%>"><%= i%></a></li>
+                <% } %>
+                <!-- 当前页离第一页距离小时，不显示省略号，直接渲染 -->
+                <% } else{%>
+                    <% for(var i=1;i<=currentPage-1;i++){%>
+                    <li class="page-item"><a class="page-link" href="/posts?page=<%-i%>"><%= i%></a></li>
+                    <% } %>
+                <% } %>
+                <!--当前页页签渲染 -->
+                <li class="page-item active"><a class="page-link" href="/posts?page=<%-currentPage%>"><%-currentPage%></a></li>
+                <!-- 当前页面右边部分逻辑 -->
+                <% if(pageCount-currentPage>4){%>
+                    <% for(var i=currentPage+1;i<=currentPage+3;i++){%>
+                    <li class="page-item"><a class="page-link" href="/posts?page=<%-i%>"><%= i%></a></li>
+                    <% } %>
+                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    <li class="page-item"><a class="page-link" href="/posts?page=<%-pageCount%>"><%-pageCount%></a></li>
+                    <% } else{%>
+                        <% for(var i=currentPage+1;i<=pageCount;i++){%>
+                        <li class="page-item<%= currentPage==i?' active':''%>"><a class="page-link" href="/posts?page=<%-i%>"><%= i%></a></li>
+                        <% } %>
+                    <% } %>
+
+
+
+              <li class="page-item"><a class="page-link" href="/posts?page=<%=(currentPage>=pageCount)?pageCount:currentPage+1%>">&gt;</a></li>
+            </ul>
+          </nav>
     </div>
 </div>

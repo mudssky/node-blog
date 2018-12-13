@@ -40,7 +40,8 @@ module.exports = (app) => {
   router.post('/signin', user.signin)
   router.get('/signout', user.signout)
   // 文章
-  router.get('/posts', isLoginUser, isAdmin, post.index)
+  // router.get('/posts', isLoginUser, isAdmin, post.index)
+  router.get('/posts', isLoginUser, isAdmin, post.easyPage)
   router.get('/posts/new', isLoginUser, isAdmin, post.create)
   router.post('/posts/new', isLoginUser, isAdmin, post.create)
   router.get('/posts/:id', post.show)
